@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-
+import React, { Component } from 'react';
+import {graphql, gql} from 'react-apollo';
 class CreateLink extends Component {
 
   state = {
@@ -7,10 +7,20 @@ class CreateLink extends Component {
     url: ''
   }
 
+  _createLink = async () => {
+    const {description, url} = this.state;
+    await this.props.createLinkMutation({
+      variables: {
+        description,
+        url
+      }
+    });
+  }
+
   render() {
     return (
       <div>
-        <div className='flex flex-column mt3'>
+        <div className='appForm flex flex-column mt3'>
           <input
             className='mb2'
             value={this.state.description}
@@ -35,10 +45,23 @@ class CreateLink extends Component {
     )
   }
 
-  _createLink = async () => {
-    // ... you'll implement this in a bit
-  }
-
 }
 
-export default CreateLink;
+// 1
+const CREATE_LINK_MUTATION = gql`
+# 2
+mutation CreateLinkMutation($description: String!, $url: String!) {
+  createLink(
+    description: $description,
+    url: $url,
+  ) {
+    id
+    createdAt
+    url
+    description
+  }
+}
+`
+
+// 3
+export default graphql(CREATE_LINK_MUTATION, { name: 'createLinkMutation' })(CreateLink)
