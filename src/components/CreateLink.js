@@ -20,7 +20,7 @@ class CreateLink extends Component {
   render() {
     return (
       <div>
-        <div className='appForm flex flex-column mt3'>
+        <div className='flex flex-column mt3'>
           <input
             className='mb2'
             value={this.state.description}
